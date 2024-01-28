@@ -17,8 +17,8 @@ class bidaithanroblox(Base):
         self.get(url)
         self.tick_cloudflare_checkbox()
 
-        time.sleep(1)
-        self.get("https://bidaithanroblox.com/")
+        # time.sleep(1)
+        # self.get("https://bidaithanroblox.com/")
 
         username = self.create_username()
         password = self.create_password()

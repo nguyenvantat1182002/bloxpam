@@ -18,20 +18,20 @@ def main(lock: threading.Lock, tinproxy: TinProxy, chrome_pos: tuple, fp_gen: Fi
         victim = None
 
         try:
-            # proxy = tinproxy.get_new_proxy()
-            # if not proxy:
-            #     end_time = time.time() + tinproxy.next_request
-            #     while True:
-            #         if time.time() > end_time:
-            #             break
-            #         print('Se lay lai proxy sau', int(end_time - time.time()))
-            #         time.sleep(1)
+            proxy = tinproxy.get_new_proxy()
+            if not proxy:   
+                end_time = time.time() + tinproxy.next_request
+                while True:
+                    if time.time() > end_time:
+                        break
+                    print('Se lay lai proxy sau', int(end_time - time.time()))
+                    time.sleep(1)
 
-            # with lock:
-            #     victim = bidaithanroblox(proxy)
-            #     victim.driver.set.window.size(CHROME_WIDTH, CHROME_HEIGHT)
-            #     victim.driver.set.window.location(*chrome_pos)
-            victim = xamroboxvn('anhphi123_224:9LVv9WWFen_country-vn@geo.vinacloud.vn:11222', fp_gen)
+            with lock:
+                victim = bidaithanroblox(proxy)
+                victim.driver.set.window.size(CHROME_WIDTH, CHROME_HEIGHT)
+                victim.driver.set.window.location(*chrome_pos)
+            # victim = xamroboxvn(proxy, fp_gen)
             victim.run()
         except ProxyError as e:
             print(e)
@@ -78,7 +78,7 @@ for r in range(rows):
                     daemon=True
                 )
             )
-        x += CHROME_WIDTH
+        x += int(CHROME_WIDTH * 2)
     x = 0
     y += CHROME_HEIGHT
 

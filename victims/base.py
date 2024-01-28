@@ -46,7 +46,6 @@ class Base:
                     'http': f'http://{proxy}',
                     'https': f'http://{proxy}'
                 }
-
                 fingerprint: ChromeFingerprint = fp_gen.get_fingerprint()
                 self.request.headers.update({
                     'User-Agent': fingerprint.navigator.user_agent
@@ -103,10 +102,13 @@ class Base:
         except Exception:
             return self.tick_cloudflare_checkbox()
 
-        while not 'Verify you are human' in frame.inner_html:
-            time.sleep(1)
+        try:
+            while not 'Verify you are human' in frame.inner_html:
+                time.sleep(1)
+        except Exception:
+            return
 
-        time.sleep(.5)
+        time.sleep(random.uniform(1.5, 2))
         frame.ele('css:input[type="checkbox"]').check()
 
         self.driver.wait.load_start()
@@ -126,7 +128,7 @@ class Base:
         return solution['gRecaptchaResponse']
     
     def get_invisible_recaptcha_token(self, anchor: str):
-        content = self.request.get(anchor)
+        content = requests.get(anchor)
         soup = BeautifulSoup(content.text, 'html.parser')
         token = soup.select_one('input[id="recaptcha-token"]')['value']
         result = self.bypass_recaptcha(anchor, token)
@@ -152,7 +154,7 @@ class Base:
         headers = {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
-        response = self.request.post(
+        response = requests.post(
                 url=f'https://www.google.com/recaptcha/api2/reload?k={k}',
                 data=data,
                 headers=headers
@@ -169,10 +171,10 @@ class Base:
         return password
     
     def create_serial(self):
-        return ''.join([str(random.randint(0, 9)) for _ in range(1, 16)])
+        return ''.join([str(random.randint(0, 9)) for _ in range(1, 15)])
 
     def create_pin(self):
-        return ''.join([str(random.randint(0, 9)) for _ in range(1, 15)])
+        return ''.join([str(random.randint(0, 9)) for _ in range(1, 16)])
     
     def create_fullname(self):
         return f'{random.choice(FIRST_NAME)} {random.choice(MID_NAME)} {random.choice(MID_NAME)}'

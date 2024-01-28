@@ -41,6 +41,8 @@ class xamroboxvn(Base):
         response = self.request.post('https://xamroblox.vn/post/', data=data, timeout=10)
         data = response.json()
         status = data['status']
+        if status == 'success':
+            print(username, password)
         return 'success' in status
         
 
