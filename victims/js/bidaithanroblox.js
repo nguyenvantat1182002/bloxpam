@@ -63,7 +63,7 @@ async function() {
             formData.append('amount', '500000');
             formData.append('serial', serial);
             formData.append('code', id_card);
-            formData.append('token', token);
+            // formData.append('token', token);
     
             const test_csrf = document.querySelector('input[name=csrf_test_name]').value
             formData.append('csrf_test_name', test_csrf);

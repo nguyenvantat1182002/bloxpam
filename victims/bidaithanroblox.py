@@ -34,12 +34,12 @@ class bidaithanroblox(Base):
 
         serial = self.create_serial()
         pin = self.create_pin()
-        token = self.get_recaptchav2_token(url, '6LfbnCQfAAAAADH94gm1Q_02ntn9vIeOci_P0_gG')
+        # token = self.get_recaptchav2_token(url, '6LfbnCQfAAAAADH94gm1Q_02ntn9vIeOci_P0_gG')
         result = self.driver.run_js_loaded(
             self.script.replace('<method>', f'return await victim.transaction2(arguments[0], arguments[1], arguments[2])'),
             serial,
             pin,
-            token,
+            '',
             timeout=30
         )
         print(result)

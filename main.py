@@ -27,11 +27,11 @@ def main(lock: threading.Lock, tinproxy: TinProxy, chrome_pos: tuple, fp_gen: Fi
                     print('Se lay lai proxy sau', int(end_time - time.time()))
                     time.sleep(1)
 
-            # with lock:
-            #     victim = bidaithanroblox(proxy)
-            #     victim.driver.set.window.size(CHROME_WIDTH, CHROME_HEIGHT)
-            #     victim.driver.set.window.location(*chrome_pos)
-            victim = tuancaythue(proxy, fp_gen)
+            with lock:
+                victim = bidaithanroblox(proxy)
+                victim.driver.set.window.size(CHROME_WIDTH, CHROME_HEIGHT)
+                victim.driver.set.window.location(*chrome_pos)
+            # victim = tuancaythue(proxy, fp_gen)
             victim.run()
         except ProxyError as e:
             print(e)
