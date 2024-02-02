@@ -41,7 +41,7 @@ class Base:
         match mode:
             case 's':
                 self._request = requests.Session()
-
+                
                 self.request.proxies = {
                     'http': f'http://{proxy}',
                     'https': f'http://{proxy}'

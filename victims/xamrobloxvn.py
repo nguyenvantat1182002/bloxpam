@@ -16,10 +16,22 @@ class xamroboxvn(Base):
 
     def run(self):
         if self.register():
+            self.gift()
             self.transaction()
 
+    def gift(self):
+        response = self.request.get('https://xamroblox.vn/')
+        token = re.findall('encodeURIComponent\(\"(.*?)"\)\,', response.text)
+        token = token[0]
+        data = {
+            '': '',
+            'token':  token
+        }
+        response = self.request.post('https://xamroblox.vn/post/', data=data)
+        print(response.text)
+
     def register(self):
-        response = self.request.get('https://xamroblox.vn/', timeout=10)
+        response = self.request.get('https://xamroblox.vn/')
         token = re.findall('encodeURIComponent\(\"(.*?)"\)\,', response.text)
         token = token[1]
         username = self.create_username(random.randint(12, 15))
@@ -38,8 +50,9 @@ class xamroboxvn(Base):
         # headers = {
         #     'User-Agent': captcha_response['userAgent']
         # }
-        response = self.request.post('https://xamroblox.vn/post/', data=data, timeout=10)
+        response = self.request.post('https://xamroblox.vn/post/', data=data)
         data = response.json()
+        print(data)
         status = data['status']
         if status == 'success':
             print(username, password)
@@ -60,21 +73,21 @@ class xamroboxvn(Base):
         # return result['code']
 
     def transaction(self):
-        response = self.request.get('https://xamroblox.vn/user/recharge', timeout=10)
+        response = self.request.get('https://xamroblox.vn/user/recharge')
         token = re.findall('encodeURIComponent\(\"(.*?)"\)\,', response.text)
         token = token[0]
         id_card = self.create_pin()
         serial = self.create_serial()
-        captcha_response = self.captcha_solve('https://xamroblox.vn/user/recharge')
-        gcaptcha_response = captcha_response['gRecaptchaResponse']
+        # captcha_response = self.captcha_solve('https://xamroblox.vn/user/recharge')
+        # gcaptcha_response = captcha_response['gRecaptchaResponse']
         data = {
             'type': 'VIETTEL',
             'amount': '500000',
             'code': id_card,
             'serial': serial,
             'token': token,
-            'g-recaptcha-response': gcaptcha_response,
-            'h-captcha-response': gcaptcha_response,
+            # 'g-recaptcha-response': gcaptcha_response,
+            # 'h-captcha-response': gcaptcha_response,
         }
-        response = self.request.post('https://xamroblox.vn/post/', data=data, timeout=10)
+        response = self.request.post('https://xamroblox.vn/post/', data=data)
         print(response.json())
