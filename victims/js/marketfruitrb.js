@@ -1,8 +1,9 @@
 async function() {
     class marketfruitrb {
-        async transaction(serial, pin) {
+        async transaction(serial, pin, recaptchaToken) {
             const formData = new URLSearchParams();
             formData.append('type', 'viettel');
+            formData.append('token', recaptchaToken);
             formData.append('amount', '500000');
             formData.append('serial', serial);
             formData.append('code', pin);
@@ -19,11 +20,12 @@ async function() {
             return await response.text()
         }
 
-        async register(email, name, password) {
+        async register(email, name, password, recaptchaToken) {
             const token = document.querySelector('input[name="_token"]').value
 
             const formData = new URLSearchParams();
             formData.append('_token', token);
+            formData.append('token', recaptchaToken);
             formData.append('email', email);
             formData.append('name', name);
             formData.append('password', password);

@@ -135,11 +135,11 @@ class Base:
         try:
             while not 'Verify you are human' in frame.inner_html:
                 time.sleep(1)
-        except Exception:
-            return
 
-        time.sleep(random.uniform(1.5, 2))
-        frame.ele('css:input[type="checkbox"]').check()
+            time.sleep(random.uniform(1.5, 2))
+            frame.ele('css:input[type="checkbox"]').check()
+        except Exception:
+            pass
 
         self.driver.wait.load_start()
         

@@ -3,8 +3,9 @@ from chrome_fingerprints import FingerprintGenerator
 
 
 fp_gen = FingerprintGenerator()
-victim = bidaithanroblox(None)
-victim.check('bidaithanroblox.txt', victim.get_items)
+victim = marketfruitrb(None)
+# victim.check2('bidaithanroblox.txt', victim.get_items)
+victim.run()
 
 # import capsolver
 # capsolver.api_key = "CAP-FFE2271E0A6E1961C4FB2BF717C81F0D"
