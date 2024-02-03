@@ -68,16 +68,12 @@ class Base:
                 if proxy:
                     host = '127.0.0.1'
                     port = random_port(host)
+                    print(host, port)
+
                     options.set_proxy(f'http://{host}:{port}')
-                    
                     app_path = f'{os.getcwd()}\\bin\\\glider_0.16.3_windows_amd64\\glider.exe'
-                    app_args = [
-                        "-listen",
-                        f"http://:{port}",
-                        "-forward",
-                        f"http://{proxy}"
-                    ]
-                    self._glider = subprocess.Popen([app_path] + app_args)
+                    
+                    self._glider = subprocess.Popen([app_path, "-listen", f"http://:{port}", "-forward", f"http://{proxy}"])
                     
                 self._driver = ChromiumPage(addr_or_opts=options)
 
@@ -219,14 +215,14 @@ class Base:
         if not self.request is None:
             self.request.close()
 
-        if not self._glider is None:
-            self._glider.kill()
-
         try:
             if not self.driver is None:
                 self.driver.quit(10)
         except Exception as e:
             print(type(e).__name__)
+
+        if not self._glider is None:
+            self._glider.kill()
 
     def _get_user_agent(self) -> str:
         user_agent = None
