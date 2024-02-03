@@ -75,10 +75,7 @@ class Base:
 
                     self._glider = subprocess.Popen([app_path, "-listen", f"http://:{port}", "-forward", f"http://{proxy}"])
                     
-                    is_pid_exists = psutil.pid_exists(self._glider.pid)
-                    print(is_pid_exists)
-
-                    if not is_pid_exists:
+                    if not psutil.pid_exists(self._glider.pid):
                         raise Exception('Cannot start proxy server.')
 
                 self._driver = ChromiumPage(addr_or_opts=options)
@@ -127,7 +124,7 @@ class Base:
             file.write('\n'.join(items))
     
     def get(self, url: str):
-        self.driver.get(url, show_errmsg=True)
+        self.driver.get(url, show_errmsg=True, retry=1)
 
     def tick_cloudflare_checkbox(self):
         try:
