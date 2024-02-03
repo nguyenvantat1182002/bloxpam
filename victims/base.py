@@ -9,7 +9,7 @@ import time
 
 from DrissionPage import ChromiumPage, ChromiumOptions
 from chrome_fingerprints import FingerprintGenerator, ChromeFingerprint
-from typing import List, Optional
+from typing import List, Optional, Callable
 from contextlib import closing
 from bs4 import BeautifulSoup
 
@@ -42,10 +42,11 @@ class Base:
             case 's':
                 self._request = requests.Session()
                 
-                self.request.proxies = {
-                    'http': f'http://{proxy}',
-                    'https': f'http://{proxy}'
-                }
+                if proxy:
+                    self.request.proxies = {
+                        'http': f'http://{proxy}',
+                        'https': f'http://{proxy}'
+                    }
                 fingerprint: ChromeFingerprint = fp_gen.get_fingerprint()
                 self.request.headers.update({
                     'User-Agent': fingerprint.navigator.user_agent
@@ -64,17 +65,19 @@ class Base:
                 for extension_folder in extension_folders:
                     options.add_extension(f'{extensions_path}\\{extension_folder}')                
                 
-                port = random_port()
-                options.set_proxy(f'http://127.0.0.1:{port}')
+                if proxy:
+                    port = random_port()
+                    options.set_proxy(f'http://127.0.0.1:{port}')
 
-                app_path = f'{os.getcwd()}\\bin\\\glider_0.16.3_windows_amd64\\glider.exe'
-                app_args = [
-                    "-listen",
-                    f"http://:{port}",
-                    "-forward",
-                    f"http://{proxy}"
-                ]
-                self._glider = subprocess.Popen([app_path] + app_args)
+                    app_path = f'{os.getcwd()}\\bin\\\glider_0.16.3_windows_amd64\\glider.exe'
+                    app_args = [
+                        "-listen",
+                        f"http://:{port}",
+                        "-forward",
+                        f"http://{proxy}"
+                    ]
+                    self._glider = subprocess.Popen([app_path] + app_args)
+                    
                 self._driver = ChromiumPage(addr_or_opts=options)
 
     @property
@@ -92,6 +95,33 @@ class Base:
     @property
     def request(self) -> requests.Session:
         return self._request
+    
+    def check2(self, file_name: str, callback: Callable):
+        with open(file_name, encoding='utf-8') as file:
+            old_data = file.read().splitlines()
+            new_data: List[str] = callback()
+            data = zip(old_data, new_data)
+            total = 0
+            for old_info, new_info in data:
+                title, total_past_account, price = old_info.split('|')
+                _, total_current_account, _ = new_info.split('|')
+
+                total_past_account = int(total_past_account)
+                total_current_account = int(total_current_account)
+                price = int(price)
+
+                sellable = max(total_past_account, total_current_account) - min(total_past_account, total_current_account)
+                total_item_price = price * sellable
+                print(title, 'bán được', sellable, 'tổng cộng', total_item_price)
+
+                total += total_item_price
+
+            print('Tổng cộng', total)
+
+    def check(self, file_name: str, callback: Callable):
+        with open(file_name, 'a', encoding='utf-8') as file:
+            items = callback()
+            file.write('\n'.join(items))
     
     def get(self, url: str):
         self.driver.get(url, show_errmsg=True)

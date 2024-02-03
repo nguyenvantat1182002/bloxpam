@@ -1,5 +1,6 @@
 from .base import Base
 from chrome_fingerprints import FingerprintGenerator
+from bs4 import BeautifulSoup
 
 import re
 
@@ -7,6 +8,30 @@ import re
 class robuxstorevn(Base):
     def __init__(self, proxy: str, fp_gen: FingerprintGenerator):
         super().__init__(proxy, fp_gen=fp_gen)
+
+    def get_items(self):
+        response = self.request.get('https://robuxstore.vn/loads/home.php')
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        items = soup.select('div[class="sl-prodli"]')
+        result = []
+
+        for item in items:
+            try:
+                title = item.select_one('span').get_text().strip()
+                
+                ul = item.select_one('ul')
+                li = ul.select('li')
+                total_account = li[0].get_text().replace('Số Tài Khoản Hiện Có:', '').strip()
+                curr_price = li[1].select_one('button').get_text()
+                curr_price = int(curr_price.replace('đ', '').replace(',', ''))
+
+                result.append(f'{title}|{total_account}|{curr_price}')
+            except Exception:
+                pass
+
+        return result
+           
 
     def get_handler_token(self, url: str):
         response = self.request.get(url)

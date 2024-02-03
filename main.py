@@ -28,10 +28,10 @@ def main(lock: threading.Lock, tinproxy: TinProxy, chrome_pos: tuple, fp_gen: Fi
                     time.sleep(1)
 
             with lock:
-                victim = bidaithanroblox(proxy)
+                victim = marketfruitrb(proxy)
                 victim.driver.set.window.size(CHROME_WIDTH, CHROME_HEIGHT)
                 victim.driver.set.window.location(*chrome_pos)
-            # victim = tuancaythue(proxy, fp_gen)
+            # victim = marketfruitrb('anhphi123_224:9LVv9WWFen_country-vn@geo.vinacloud.vn:11222', fp_gen)
             victim.run()
         except ProxyError as e:
             print(e)
