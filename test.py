@@ -26,8 +26,9 @@ driver = ChromiumPage(addr_or_opts=options)
 try:
     driver.get('https://www.facebook.com/', show_errmsg=True, retry=1)
     time.sleep(4)
-except Exception:
-    pass
+except Exception as e:
+    print(type(e).__name__)
+
 driver.quit()
 
 

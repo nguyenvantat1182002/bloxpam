@@ -15,8 +15,6 @@ CHROME_WIDTH, CHROME_HEIGHT = 262, 400
 
 def main(lock: threading.Lock, tinproxy: TinProxy, chrome_pos: tuple, fp_gen: FingerprintGenerator):
     while True:
-        victim = None
-
         try:
             proxy = tinproxy.get_new_proxy()
             if not proxy:   
@@ -39,8 +37,10 @@ def main(lock: threading.Lock, tinproxy: TinProxy, chrome_pos: tuple, fp_gen: Fi
         except Exception as e:
             print(type(e).__name__)
         finally:
-            if not victim is None:
+            try:
                 victim.close()
+            except Exception:
+                pass
 
 
 with open('config.json', encoding='utf-8') as file:

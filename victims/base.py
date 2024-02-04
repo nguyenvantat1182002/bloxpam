@@ -214,11 +214,8 @@ class Base:
         if not self.request is None:
             self.request.close()
 
-        try:
-            if not self.driver is None:
-                self.driver.quit()
-        except Exception as e:
-            print(type(e).__name__)
+        if not self.driver is None:
+            self.driver.quit()
 
         if not self._glider is None:
             self._glider.kill()
