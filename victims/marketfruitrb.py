@@ -18,10 +18,10 @@ class marketfruitrb(Base):
     def run(self):
         # self.register()
         # self.transaction()
-        self.driver.get('https://marketfruitrb.com/reg.html')
+        self.get('https://marketfruitrb.com/reg.html')
         self.tick_cloudflare_checkbox()
 
-        # self.driver.get('https://marketfruitrb.com/reg.html')
+        # self.get('https://marketfruitrb.com/reg.html')
         # time.sleep(2)
 
         recaptchav3_token = self.get_invisible_recaptcha_token('https://www.google.com/recaptcha/api2/anchor?ar=1&k=6LdHnSQfAAAAAIzU16oY8f6qJBKEEVqgNqZGOOxu&co=aHR0cHM6Ly9tYXJrZXRmcnVpdHJiLmNvbTo0NDM.&hl=en&v=MHBiAvbtvk5Wb2eTZHoP1dUd&size=invisible&cb=6wono6y0sczz')

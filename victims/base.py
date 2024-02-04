@@ -6,7 +6,6 @@ import random
 import string
 import capsolver
 import time
-import psutil
 
 from DrissionPage import ChromiumPage, ChromiumOptions
 from chrome_fingerprints import FingerprintGenerator, ChromeFingerprint
@@ -74,9 +73,6 @@ class Base:
                     options.set_proxy(f'http://{host}:{port}')
 
                     self._glider = subprocess.Popen([app_path, "-listen", f"http://:{port}", "-forward", f"http://{proxy}"])
-                    
-                    if not psutil.pid_exists(self._glider.pid):
-                        raise Exception('Cannot start proxy server.')
 
                 self._driver = ChromiumPage(addr_or_opts=options)
 
@@ -220,7 +216,7 @@ class Base:
 
         try:
             if not self.driver is None:
-                self.driver.quit(10)
+                self.driver.quit()
         except Exception as e:
             print(type(e).__name__)
 
