@@ -3,3 +3,4 @@ chrome-fingerprints
 beautifulsoup4
 capsolver
 twocaptcha
+unidecode
