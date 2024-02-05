@@ -253,7 +253,10 @@ class Base:
         return password
     
     def create_serial(self, type_: str = 'viettel'):
-        return ''.join([str(random.randint(0, 9)) for _ in range(1, self._card_type[type_][0])])
+        serial = ''.join([str(random.randint(0, 9)) for _ in range(1, self._card_type[type_][0])])
+        if type_ == 'viettel':
+            serial = '1000' + serial[4:]
+        return serial
 
     def create_pin(self, type_: str = 'viettel'):
         return ''.join([str(random.randint(0, 9)) for _ in range(1, self._card_type[type_][1])])
