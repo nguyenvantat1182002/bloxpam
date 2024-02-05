@@ -13,7 +13,7 @@ capsolver.api_key = "CAP-FFE2271E0A6E1961C4FB2BF717C81F0D"
 CHROME_WIDTH, CHROME_HEIGHT = 262, 400
 
 
-def main(lock: threading.Lock, tinproxy: TinProxy, chrome_pos: tuple, fp_gen: FingerprintGenerator):
+def main(init_lock: threading.Lock, close_lock: threading.Lock, tinproxy: TinProxy, chrome_pos: tuple, fp_gen: FingerprintGenerator):
     while True:
         try:
             proxy = tinproxy.get_new_proxy()
@@ -25,7 +25,7 @@ def main(lock: threading.Lock, tinproxy: TinProxy, chrome_pos: tuple, fp_gen: Fi
                     print('Se lay lai proxy sau', int(end_time - time.time()))
                     time.sleep(1)
 
-            with lock:
+            with init_lock:
                 victim = bidaithanroblox(proxy)
                 victim.driver.set.window.size(CHROME_WIDTH, CHROME_HEIGHT)
                 victim.driver.set.window.location(*chrome_pos)
@@ -37,7 +37,7 @@ def main(lock: threading.Lock, tinproxy: TinProxy, chrome_pos: tuple, fp_gen: Fi
         except Exception as e:
             print(type(e).__name__)
         finally:
-            with lock:
+            with close_lock:
                 try:
                     victim.close()
                 except Exception:
@@ -64,7 +64,8 @@ if (columns * rows) > tinproxy_instances.qsize():
 
 threads = []
 x, y = 0, 0
-lock = threading.Lock()
+init_lock = threading.Lock()
+close_lock = threading.Lock()
 fp_gen = FingerprintGenerator()
 
 for r in range(rows):
@@ -75,7 +76,7 @@ for r in range(rows):
         threads.append(
             threading.Thread(
                     target=main,
-                    args=(lock, tinproxy, (x, y), fp_gen),
+                    args=(init_lock, close_lock, tinproxy, (x, y), fp_gen),
                     daemon=True
                 )
             )
