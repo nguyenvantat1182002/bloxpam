@@ -171,7 +171,10 @@ class Base:
         except Exception:
             return self.tick_cloudflare_checkbox(url)
         
+        end_time = time.time() + timeout
         while title == self.driver.title:
+            if time.time() > end_time:
+                return self.tick_cloudflare_checkbox(url)
             time.sleep(1)
 
     def get_recaptchav2_token(self, url: str, website_key: str) -> str:
