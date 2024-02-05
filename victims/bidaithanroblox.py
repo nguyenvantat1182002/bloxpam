@@ -61,6 +61,7 @@ class bidaithanroblox(Base):
         # token = self.get_recaptchav2_token(url, '6LfbnCQfAAAAADH94gm1Q_02ntn9vIeOci_P0_gG')
         result = self.driver.run_js_loaded(
             self.script.replace('<method>', f'return await victim.transaction2(arguments[0], arguments[1], arguments[2])'),
+            card_name.upper(),
             serial,
             pin,
             '',

@@ -57,9 +57,9 @@ async function() {
             return JSON.stringify(data);
         }
     
-        async transaction2(serial, id_card, token) {
+        async transaction2(type, serial, id_card, token) {
             const formData = new URLSearchParams();
-            formData.append('type', 'VIETTEL'); 
+            formData.append('type', type); 
             formData.append('amount', '500000');
             formData.append('serial', serial);
             formData.append('code', id_card);
