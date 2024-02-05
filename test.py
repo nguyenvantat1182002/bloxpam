@@ -6,8 +6,8 @@ from victims import *
 # fp_gen = FingerprintGenerator()
 
 proxy = 'n1NMQUZM:E5lLfQNN@116.109.65.136:17008'
-victim = bidaithanroblox(proxy)
-victim.check('bidaithan.txt', victim.get_items)
+victim = bidaithanroblox(None)
+victim.check('bidaithanroblox.txt', victim.get_items)
 
 # victim._register()
 # victim.driver.get('https://bidaithanroblox.com/')

@@ -89,9 +89,10 @@ class bidaithanroblox(Base):
         card_name = card_name = random.choice(['viettel', 'mobifone'])
         serial = self.create_serial(card_name)
         pin = self.create_pin(card_name)
+        amount = random.choice([50000, 100000, 200000, 300000, 500000])
         data = {
             'type': card_name.upper(),
-            'amount': '500000',
+            'amount': str(amount),
             'serial': serial,
             'code': pin,
             'csrf_test_name': token,
