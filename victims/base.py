@@ -163,7 +163,7 @@ class Base:
             end_time = time.time() + timeout
             while not 'Verify you are human' in frame.inner_html:
                 if time.time() > end_time:
-                    raise Exception
+                    return self.tick_cloudflare_checkbox(url)
                 time.sleep(1)
 
             time.sleep(random.uniform(1.5, 2))
