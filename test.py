@@ -1,10 +1,18 @@
-# from victims import *
+from victims import *
+
 # from chrome_fingerprints import FingerprintGenerator
 
 
 # fp_gen = FingerprintGenerator()
-# victim = bidaithanroblox(None)
-# victim.check('bidaithanroblox.txt', victim.get_items)
+
+proxy = 'n1NMQUZM:E5lLfQNN@116.109.65.136:17008'
+victim = bidaithanroblox(proxy)
+victim.check('bidaithan.txt', victim.get_items)
+
+# victim._register()
+# victim.driver.get('https://bidaithanroblox.com/')
+# with open('Test.html', 'w', encoding='utf-8') as file:
+#     file.write(victim.driver.html)
 # victim.run()
 
 # import capsolver
@@ -31,30 +39,30 @@
 
 # driver.quit()
 
-import re
-import random
+# import re
+# import random
 
-from unidecode import unidecode
+# from unidecode import unidecode
 
-FIRST_NAME = ['Nguyễn', 'Trần', 'Lê', 'Phạm', 'Hoàng', 'Huỳnh', 'Vũ', 'Võ', 'Phan', 'Trương', 'Bùi', 'Đặng', 'Đỗ', 'Ngô', 'Hồ', 'Dương', 'Đinh']
-MID_NAME = ['Anh', 'Bảo', 'Bình', 'Bửu', 'Công', 'Cường', 'Chí', 'Cao', 'Châu', 'Chiêu', 'Quang', 'Tuấn', 'Huy', 'Văn', 'Thành']
+# FIRST_NAME = ['Nguyễn', 'Trần', 'Lê', 'Phạm', 'Hoàng', 'Huỳnh', 'Vũ', 'Võ', 'Phan', 'Trương', 'Bùi', 'Đặng', 'Đỗ', 'Ngô', 'Hồ', 'Dương', 'Đinh']
+# MID_NAME = ['Anh', 'Bảo', 'Bình', 'Bửu', 'Công', 'Cường', 'Chí', 'Cao', 'Châu', 'Chiêu', 'Quang', 'Tuấn', 'Huy', 'Văn', 'Thành']
 
-def remove_special_characters(input_string):
-    # Sử dụng biểu thức chính quy để chỉ chấp nhận các ký tự chữ cái và chữ số
-    return re.sub(r'[^a-zA-Z0-9]', '', input_string)
+# def remove_special_characters(input_string):
+#     # Sử dụng biểu thức chính quy để chỉ chấp nhận các ký tự chữ cái và chữ số
+#     return re.sub(r'[^a-zA-Z0-9]', '', input_string)
 
-def remove_accents(input_str):
-    # Sử dụng unidecode để chuyển đổi các ký tự có dấu thành dạng không dấu
-    result_str = unidecode(input_str)
+# def remove_accents(input_str):
+#     # Sử dụng unidecode để chuyển đổi các ký tự có dấu thành dạng không dấu
+#     result_str = unidecode(input_str)
     
-    # Chuyển đổi thành chữ thường
-    result_str = result_str.lower()
+#     # Chuyển đổi thành chữ thường
+#     result_str = result_str.lower()
     
-    # Loại bỏ các ký tự không mong muốn
-    result_str = ''.join(c for c in result_str if c.isalnum() or c.isspace())
+#     # Loại bỏ các ký tự không mong muốn
+#     result_str = ''.join(c for c in result_str if c.isalnum() or c.isspace())
     
-    return result_str
+#     return result_str
 
-input_string = f'{random.choice(FIRST_NAME)}{random.choice(MID_NAME)}{random.choice(MID_NAME)}{random.randint(100, 10000)}'
-output_string = remove_accents(input_string)
-print(output_string)
+# input_string = f'{random.choice(FIRST_NAME)}{random.choice(MID_NAME)}{random.choice(MID_NAME)}{random.randint(100, 10000)}'
+# output_string = remove_accents(input_string)
+# print(output_string)
