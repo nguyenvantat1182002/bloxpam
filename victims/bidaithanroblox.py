@@ -1,4 +1,5 @@
 import os
+import random
 
 from bs4 import BeautifulSoup
 from .base import Base
@@ -54,8 +55,9 @@ class bidaithanroblox(Base):
 
         self.get(url)
 
-        serial = self.create_serial()
-        pin = self.create_pin()
+        card_name = random.choice(['viettel', 'mobifone'])
+        serial = self.create_serial(card_name)
+        pin = self.create_pin(card_name)
         # token = self.get_recaptchav2_token(url, '6LfbnCQfAAAAADH94gm1Q_02ntn9vIeOci_P0_gG')
         result = self.driver.run_js_loaded(
             self.script.replace('<method>', f'return await victim.transaction2(arguments[0], arguments[1], arguments[2])'),

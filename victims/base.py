@@ -6,7 +6,9 @@ import random
 import string
 import capsolver
 import time
+import re
 
+from unidecode import unidecode
 from DrissionPage import ChromiumPage, ChromiumOptions
 from chrome_fingerprints import FingerprintGenerator, ChromeFingerprint
 from typing import List, Optional, Callable
@@ -31,12 +33,17 @@ class Base:
     _driver: ChromiumPage
     _glider: subprocess.Popen
     _script: str
+    _card_type: dict
 
     def __init__(self, proxy: str, mode: str = 's', fp_gen: Optional[FingerprintGenerator] = None):
         self._request = None
         self._driver = None
         self._glider = None
         self._script = None
+        self._card_type = {
+            'viettel': [15, 16],
+            'mobifone': [16, 13]
+        }
 
         match mode:
             case 's':
@@ -188,19 +195,40 @@ class Base:
                 
         return response.text.split('["rresp","')[1].split('",')[0]
     
-    def create_username(self, length=8):
-        username = ''.join(random.choice(string.ascii_letters) for _ in range(length))
-        return username
+    def _remove_accents(self, input_str: str):
+        result_str = unidecode(input_str)
+        result_str = result_str.lower()
+        result_str = ''.join(c for c in result_str if c.isalnum() or c.isspace())
+        return result_str
+    
+    def _create_username4(self):
+        return self._create_username3().title().replace('0', 'k')
+    
+    def _create_username3(self):
+        input_string = f'{random.choice(MID_NAME)}{random.choice(MID_NAME)}{random.randint(2001, 2010)}'
+        return self._remove_accents(input_string)
+
+    def _create_username2(self):
+        input_string = f'{random.choice(FIRST_NAME)}{random.choice(MID_NAME)}{random.choice(MID_NAME)}{random.randint(1000, 10000)}'
+        return self._remove_accents(input_string)
+    
+    def _create_username1(self):
+        input_string = f'{random.choice(FIRST_NAME)}{random.choice(MID_NAME)}{random.choice(MID_NAME)}{random.randint(100, 10000)}'
+        return re.sub(r'[^a-zA-Z0-9]', '', input_string)
+    
+    def create_username(self):
+        methods = [self._create_username1, self._create_username2, self._create_username3, self._create_username4]
+        return random.choice(methods)()
 
     def create_password(self, length=12):
         password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(length))
         return password
     
-    def create_serial(self):
-        return ''.join([str(random.randint(0, 9)) for _ in range(1, 15)])
+    def create_serial(self, type_: str = 'viettel'):
+        return ''.join([str(random.randint(0, 9)) for _ in range(1, self._card_type[type_][0])])
 
-    def create_pin(self):
-        return ''.join([str(random.randint(0, 9)) for _ in range(1, 16)])
+    def create_pin(self, type_: str = 'viettel'):
+        return ''.join([str(random.randint(0, 9)) for _ in range(1, self._card_type[type_][1])])
     
     def create_fullname(self):
         return f'{random.choice(FIRST_NAME)} {random.choice(MID_NAME)} {random.choice(MID_NAME)}'
