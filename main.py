@@ -26,7 +26,7 @@ def main(lock: threading.Lock, tinproxy: TinProxy, chrome_pos: tuple, fp_gen: Fi
                     time.sleep(1)
 
             with lock:
-                victim = marketfruitrb(proxy)
+                victim = bidaithanroblox(proxy)
                 victim.driver.set.window.size(CHROME_WIDTH, CHROME_HEIGHT)
                 victim.driver.set.window.location(*chrome_pos)
             # victim = xamroboxvn('anhphi123_224:9LVv9WWFen_country-vn@geo.vinacloud.vn:11222', fp_gen)
