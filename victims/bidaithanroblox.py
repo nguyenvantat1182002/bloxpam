@@ -104,6 +104,9 @@ class bidaithanroblox(Base):
     def _register(self):
         username = self.create_username()
         password = self.create_password()
+        
+        print(username, password)
+
         data = {
             'username': username,
             'password': password,

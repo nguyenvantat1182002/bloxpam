@@ -8,3 +8,4 @@ from .shoptridung import shoptridung
 from .tuancaythue import tuancaythue
 from .hiddingroblox import hiddingroblox
 from .marketfruitrb import marketfruitrb
+from .kidroblox import kidroblox

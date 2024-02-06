@@ -5,8 +5,10 @@ from victims import *
 
 # fp_gen = FingerprintGenerator()
 
-# proxy = 'n1NMQUZM:E5lLfQNN@116.109.65.136:17008'
-# victim = bidaithanroblox(None)
+proxy = 'CSkoRcrY:RdMU7ou9@171.250.134.190:6015'
+victim = bidaithanroblox(proxy)
+victim.run()
+
 # victim.check('bidaithanroblox.txt', victim.get_items)
 
 # victim._register()

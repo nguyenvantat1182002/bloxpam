@@ -29,11 +29,11 @@ def main(init_lock: threading.Lock, close_lock: threading.Lock, tinproxy: TinPro
                 victim = bidaithanroblox(proxy)
                 victim.driver.set.window.size(CHROME_WIDTH, CHROME_HEIGHT)
                 victim.driver.set.window.location(*chrome_pos)
-            # victim = xamroboxvn('anhphi123_224:9LVv9WWFen_country-vn@geo.vinacloud.vn:11222', fp_gen)
-            victim.run()
-        except ProxyError as e:
-            print(e)
-            return
+            # victim = kidroblox('anhphi123_224:9LVv9WWFen_country-vn@geo.vinacloud.vn:11222', fp_gen)
+            victim.run() 
+        except ProxyError as e: 
+            print(e) 
+            return 
         except Exception as e:
             print(type(e).__name__)
         finally:

@@ -37,7 +37,7 @@ class TinProxy:
     def get_new_proxy(self) -> str:
         response = self.request.get(
             url='https://api.tinproxy.com/proxy/get-new-proxy',
-            params={'api_key': self._api_key, 'location': 'vn_hcm'}
+            params={'api_key': self._api_key, 'location': 'random'}
         )
         data = response.json()
 
