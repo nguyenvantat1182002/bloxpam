@@ -70,7 +70,7 @@ class Base:
                 })
             case 'd':
                 options = ChromiumOptions().auto_port(tmp_path='profiles')
-
+                
                 options.set_argument('--force-device-scale-factor', .5)
                 options.set_argument('--high-dpi-support', .5)
 
@@ -153,7 +153,7 @@ class Base:
         timeout = 10
         
         try:
-            frame = self.driver.get_frame('css:iframe[src*="challenges.cloudflare.com"]', timeout=timeout)
+            frame = self.driver.get_frame('css:iframe[src*="challenges.cloudflare.com"]', timeout=5)
             if not frame:
                 return
         except ElementLostError:
@@ -161,9 +161,16 @@ class Base:
 
         try:
             end_time = time.time() + timeout
-            while not 'Verify you are human' in frame.inner_html:
+            while True:
                 if time.time() > end_time:
                     return self.tick_cloudflare_checkbox(url)
+                
+                if self.driver.title != title:
+                    return
+
+                if 'Verify you are human' in frame.inner_html:
+                    break
+
                 time.sleep(1)
 
             time.sleep(random.uniform(1.5, 2))
@@ -247,6 +254,7 @@ class Base:
     def create_username(self):
         methods = [self._create_username1, self._create_username2, self._create_username3, self._create_username4]
         return random.choice(methods)()
+        # return ''.join(random.choice(string.ascii_letters) for _ in range(random.randint(8, 12)))
 
     def create_password(self, length=12):
         password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(length))

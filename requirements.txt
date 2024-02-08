@@ -4,3 +4,5 @@ beautifulsoup4
 capsolver
 twocaptcha
 unidecode
+pytesseract
+opencv-python

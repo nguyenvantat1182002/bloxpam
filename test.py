@@ -1,13 +1,15 @@
-from victims import *
+# import capsolver
+# capsolver.api_key = "CAP-FFE2271E0A6E1961C4FB2BF717C81F0D"
 
+from victims import *
 # from chrome_fingerprints import FingerprintGenerator
 
 
 # fp_gen = FingerprintGenerator()
-
-proxy = 'CSkoRcrY:RdMU7ou9@171.250.134.190:6015'
-victim = bidaithanroblox(proxy)
-victim.run()
+victim = bidaithanroblox(None)
+# # victim.tick_cloudflare_checkbox('https://bidaithanroblox.com/nap-tien.html')
+victim.check2('bidaithanroblox.txt', victim.get_items)
+# victim.run()
 
 # victim.check('bidaithanroblox.txt', victim.get_items)
 

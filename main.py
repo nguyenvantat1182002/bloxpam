@@ -13,24 +13,35 @@ capsolver.api_key = "CAP-FFE2271E0A6E1961C4FB2BF717C81F0D"
 CHROME_WIDTH, CHROME_HEIGHT = 262, 400
 
 
-def main(init_lock: threading.Lock, close_lock: threading.Lock, tinproxy: TinProxy, chrome_pos: tuple, fp_gen: FingerprintGenerator):
+def main(init_lock: threading.Lock, close_lock: threading.Lock, tinproxy: TinProxy, account_list: queue.Queue, chrome_pos: tuple, fp_gen: FingerprintGenerator):
     while True:
         try:
-            proxy = tinproxy.get_new_proxy()
-            if not proxy:   
-                end_time = time.time() + tinproxy.next_request
-                while True:
-                    if time.time() > end_time:
-                        break
-                    print('Se lay lai proxy sau', int(end_time - time.time()))
-                    time.sleep(1)
+            # proxy = tinproxy.get_new_proxy()
+            # if not proxy:   
+            #     end_time = time.time() + tinproxy.next_request
+            #     while True:
+            #         if time.time() > end_time:
+            #             break
+            #         print('Se lay lai proxy sau', int(end_time - time.time()))
+            #         time.sleep(1)
 
-            with init_lock:
-                victim = bidaithanroblox(proxy)
-                victim.driver.set.window.size(CHROME_WIDTH, CHROME_HEIGHT)
-                victim.driver.set.window.location(*chrome_pos)
-            # victim = kidroblox('anhphi123_224:9LVv9WWFen_country-vn@geo.vinacloud.vn:11222', fp_gen)
-            victim.run() 
+            # with init_lock:
+            #     victim = bidaithanroblox(proxy)
+            #     victim.driver.set.window.size(CHROME_WIDTH, CHROME_HEIGHT)
+            #     victim.driver.set.window.location(*chrome_pos)
+            victim = xamroboxvn('zp22247_8fyrwz:jHooK5naDimXJaO0_country-vn@146.190.3.79:31112', fp_gen)
+            victim.run()
+            # with init_lock:
+            #     if account_list.empty():
+            #         return
+            #     data: str = account_list.get_nowait()
+            #     account_list.task_done()
+            #     username, password = data.split('|')
+            # victim.run(username, password)
+            # username, password = victim.run('username', 'password')
+            # with init_lock:
+            #     with open('acc.txt', 'a', encoding='utf-8') as file:
+            #         file.write(f'{username}|{password}\n')
         except ProxyError as e: 
             print(e) 
             return 
@@ -55,6 +66,12 @@ tinproxy_instances = queue.Queue()
 for item in tinproxy_keys:
     tinproxy_instances.put(TinProxy(item))
 
+account_list = queue.Queue()
+with open('acc.txt', encoding='utf-8') as file:
+    lines = file.read().splitlines()
+for item in lines:
+    account_list.put_nowait(item)
+
 rows = config['Rows']
 columns = config['Columns']
 
@@ -76,7 +93,7 @@ for r in range(rows):
         threads.append(
             threading.Thread(
                     target=main,
-                    args=(init_lock, close_lock, tinproxy, (x, y), fp_gen),
+                    args=(init_lock, close_lock, tinproxy, account_list, (x, y), fp_gen),
                     daemon=True
                 )
             )

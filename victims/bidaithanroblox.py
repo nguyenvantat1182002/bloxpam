@@ -86,10 +86,14 @@ class bidaithanroblox(Base):
 
     def _transaction(self):        
         token = self.driver.cookies['csrf_cookie_name']
-        card_name = card_name = random.choice(['viettel', 'mobifone'])
-        serial = self.create_serial(card_name)
-        pin = self.create_pin(card_name)
-        amount = random.choice([50000, 100000, 200000, 300000, 500000])
+        # card_name = random.choice(['viettel', 'mobifone'])
+        # serial = self.create_serial(card_name)
+        # pin = self.create_pin(card_name)
+        # amount = random.choice([50000, 100000, 200000, 300000, 500000])
+        card_name = 'viettel'
+        amount = '30000'
+        serial = '20000278841690'
+        pin = '523183623794657'
         data = {
             'type': card_name.upper(),
             'amount': str(amount),

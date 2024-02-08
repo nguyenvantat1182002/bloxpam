@@ -34,7 +34,7 @@ class xamroboxvn(Base):
         response = self.request.get('https://xamroblox.vn/')
         token = re.findall('encodeURIComponent\(\"(.*?)"\)\,', response.text)
         token = token[1]
-        username = self.create_username(random.randint(12, 15))
+        username = self.create_username()
         password = self.create_password()
         # captcha_response = self.captcha_solve('https://xamroblox.vn/')
         # gcaptcha_response = captcha_response['gRecaptchaResponse']
@@ -76,13 +76,15 @@ class xamroboxvn(Base):
         response = self.request.get('https://xamroblox.vn/user/recharge')
         token = re.findall('encodeURIComponent\(\"(.*?)"\)\,', response.text)
         token = token[0]
-        id_card = self.create_pin()
-        serial = self.create_serial()
+        card_name = random.choice(['viettel', 'mobifone'])
+        id_card = self.create_pin(card_name)
+        serial = self.create_serial(card_name)
+        price = random.choice([50000, 100000, 200000, 300000, 500000])
         # captcha_response = self.captcha_solve('https://xamroblox.vn/user/recharge')
         # gcaptcha_response = captcha_response['gRecaptchaResponse']
         data = {
-            'type': 'VIETTEL',
-            'amount': '500000',
+            'type': card_name.upper(),
+            'amount': str(price),
             'code': id_card,
             'serial': serial,
             'token': token,
