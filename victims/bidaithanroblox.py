@@ -2,23 +2,24 @@ import os
 import random
 import time
 
+from chrome_fingerprints import FingerprintGenerator
 from bs4 import BeautifulSoup
 from .base import Base
 
 
 class bidaithanroblox(Base):
-    def __init__(self, proxy: str):
-        super().__init__(proxy, 'd')
+    def __init__(self, proxy: str, fp_gen: FingerprintGenerator):
+        super().__init__(proxy, fp_gen=fp_gen)
 
-        with open(f'{os.getcwd()}\\victims\\js\\bidaithanroblox.js', encoding='utf-8') as file:
-            self.script = file.read()
+        # with open(f'{os.getcwd()}\\victims\\js\\bidaithanroblox.js', encoding='utf-8') as file:
+        #     self.script = file.read()
 
-        self.file_name = 'bidaithanroblox.txt'
+        # self.file_name = 'bidaithanroblox.txt'
 
     def get_items(self):
-        self.tick_cloudflare_checkbox('https://bidaithanroblox.com/')
+        response = self.request.get('https://bidaithanroblox.com/')
 
-        soup = BeautifulSoup(self.driver.html, 'html.parser')
+        soup = BeautifulSoup(response.text, 'html.parser')
         anchors = soup.select('a[href*="/body/random/"]')
         result = []
 
@@ -34,11 +35,15 @@ class bidaithanroblox(Base):
 
         return result
     
-    def run(self):
-        self.tick_cloudflare_checkbox('https://bidaithanroblox.com/nap-tien.html')
-        self.driver.change_mode()
-        self._register()
-        self._transaction()
+    def run(self, username: str, password: str):
+        return self._register()
+        # self._login(username, password)
+        # self._transaction()
+        # self.tick_cloudflare_checkbox('https://bidaithanroblox.com/nap-tien.html')
+        # self.driver.get('https://bidaithanroblox.com/nap-tien.html')
+        # self.driver.change_mode()
+        # self._register()
+        # self._transaction()
 
         # title = self.driver.title
         # end_time = time.time() + 30
@@ -83,17 +88,22 @@ class bidaithanroblox(Base):
         #     timeout=30
         # )
         # print(result)
+    
+    def _login(self, username: str, password: str):
+        data = {
+            'username': username,
+            'password': password
+        }
+        response = self.request.post('https://bidaithanroblox.com/login/LoginUser', data=data)
+        print(response.json())
 
     def _transaction(self):        
-        token = self.driver.cookies['csrf_cookie_name']
-        # card_name = random.choice(['viettel', 'mobifone'])
-        # serial = self.create_serial(card_name)
-        # pin = self.create_pin(card_name)
-        # amount = random.choice([50000, 100000, 200000, 300000, 500000])
-        card_name = 'viettel'
-        amount = '30000'
-        serial = '20000278841690'
-        pin = '523183623794657'
+        response = self.request.get('https://bidaithanroblox.com/nap-tien.html')
+        token = response.cookies['csrf_cookie_name']
+        card_name = random.choice(['viettel', 'mobifone'])
+        serial = self.create_serial(card_name)
+        pin = self.create_pin(card_name)
+        amount = random.choice([50000, 100000, 200000, 300000, 500000])
         data = {
             'type': card_name.upper(),
             'amount': str(amount),
@@ -102,20 +112,19 @@ class bidaithanroblox(Base):
             'csrf_test_name': token,
         }
 
-        self.driver.post('https://bidaithanroblox.com/transaction/index', data=data)
-        print(self.driver.html)
+        response = self.request.post('https://bidaithanroblox.com/transaction/index', data=data)
+        print(response.json())
 
     def _register(self):
         username = self.create_username()
         password = self.create_password()
-        
-        print(username, password)
-
         data = {
             'username': username,
             'password': password,
             'password1': password
         }
 
-        self.driver.post('https://bidaithanroblox.com/login/RegisterUser', data=data)
-        print(self.driver.html)
+        response = self.request.post('https://bidaithanroblox.com/login/RegisterUser', data=data)
+        data = response.json()
+
+        return [username, password] if data['err'] == 0 else None

@@ -184,6 +184,15 @@ class Base:
                 return self.tick_cloudflare_checkbox(url)
             time.sleep(1)
 
+    def get_hcaptcha_token(self, url: str, website_key: str):
+        solution = capsolver.solve({
+            "type": "HCaptchaTaskProxyLess",
+            "websiteURL": url,
+            "websiteKey": website_key,
+        })
+
+        return solution
+
     def get_recaptchav2_token(self, url: str, website_key: str) -> str:
         user_agent = self._get_user_agent()
         solution = capsolver.solve({
