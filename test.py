@@ -1,5 +1,5 @@
-import capsolver
-capsolver.api_key = "CAP-FFE2271E0A6E1961C4FB2BF717C81F0D"
+# import capsolver
+# capsolver.api_key = "CAP-FFE2271E0A6E1961C4FB2BF717C81F0D"
 
 # print(capsolver.balance())
 from victims import *
@@ -7,10 +7,10 @@ from chrome_fingerprints import FingerprintGenerator
 
 
 fp_gen = FingerprintGenerator()
-victim = pokerobux(None, fp_gen)
+victim = marketfruitrb(None)
 # # # victim.tick_cloudflare_checkbox('https://bidaithanroblox.com/nap-tien.html')
-victim.check2('pokerobux.txt', victim.get_items)
-# victim.run()
+# victim.check2('bidaithanroblox.txt', victim.get_items)
+victim.run()
 
 # victim.check('bidaithanroblox.txt', victim.get_items)
 

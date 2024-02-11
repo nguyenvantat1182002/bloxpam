@@ -25,23 +25,23 @@ def main(init_lock: threading.Lock, close_lock: threading.Lock, tinproxy: TinPro
                     print('Se lay lai proxy sau', int(end_time - time.time()))
                     time.sleep(1)
 
-            # with init_lock:
-            #     victim = bidaithanroblox(proxy)
-            #     victim.driver.set.window.size(CHROME_WIDTH, CHROME_HEIGHT)
-            #     victim.driver.set.window.location(*chrome_pos)
-            victim = bidaithanroblox(proxy, fp_gen)
-            # victim.run()
+            with init_lock:
+                victim = marketfruitrb(proxy)
+                victim.driver.set.window.size(CHROME_WIDTH, CHROME_HEIGHT)
+                victim.driver.set.window.location(*chrome_pos)
+            # victim = marketfruitrb(proxy, fp_gen)
+            victim.run()
             # with init_lock:
             #     if account_list.empty():
             #         return
             #     data: str = account_list.get_nowait()
             #     account_list.task_done()
             # victim.run(*data.split('|'))
-            account = victim.run('', '')
-            if account is not None:
-                with init_lock:
-                    with open('biacc.txt', 'a', encoding='utf-8') as file:
-                        file.write('|'.join(account) + '\n')
+            # account = victim.run('', '')
+            # if account is not None:
+            #     with init_lock:
+            #         with open('biacc.txt', 'a', encoding='utf-8') as file:
+            #             file.write('|'.join(account) + '\n')
 
             # with init_lock:
             #     if account_list.empty():
@@ -79,10 +79,10 @@ for item in tinproxy_keys:
     tinproxy_instances.put(TinProxy(item))
 
 account_list = queue.Queue()
-# with open('biacc.txt', encoding='utf-8') as file:
-#     lines = file.read().splitlines()
-# for item in lines:
-#     account_list.put_nowait(item)
+with open('biacc.txt', encoding='utf-8') as file:
+    lines = file.read().splitlines()
+for item in lines:
+    account_list.put_nowait(item)
 
 rows = config['Rows']
 columns = config['Columns']

@@ -36,9 +36,10 @@ class bidaithanroblox(Base):
         return result
     
     def run(self, username: str, password: str):
-        return self._register()
-        # self._login(username, password)
-        # self._transaction()
+        # return self._register()
+
+        self._login(username, password)
+        self._transaction()
         # self.tick_cloudflare_checkbox('https://bidaithanroblox.com/nap-tien.html')
         # self.driver.get('https://bidaithanroblox.com/nap-tien.html')
         # self.driver.change_mode()
