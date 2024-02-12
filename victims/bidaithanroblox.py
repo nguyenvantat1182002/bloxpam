@@ -28,6 +28,8 @@ class bidaithanroblox(Base):
         return result
     
     def run(self, username: str = None, password: str = None):
+        self.tick_cloudflare_checkbox('https://bidaithanroblox.com/nap-tien.html')
+        
         if username is None and password is None:
             return self._register()
         self._login(username, password)
@@ -70,4 +72,4 @@ class bidaithanroblox(Base):
         self.driver.post('https://bidaithanroblox.com/login/RegisterUser', data=data)
         print(self.driver.html)
 
-        return [username, password] if data['err'] == 0 else None
+        return [username, password] if '"err":0' else None

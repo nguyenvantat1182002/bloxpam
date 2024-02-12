@@ -3,11 +3,11 @@
 
 # print(capsolver.balance())
 from victims import *
-from chrome_fingerprints import FingerprintGenerator
+# from chrome_fingerprints import FingerprintGenerator
 
 
-fp_gen = FingerprintGenerator()
-victim = dichvurobux('owYMkhZU:aKnuZZyW@27.68.110.204:6015', fp_gen)
+# fp_gen = FingerprintGenerator()
+victim = bidaithanroblox(None)
 # # # victim.tick_cloudflare_checkbox('https://bidaithanroblox.com/nap-tien.html')
 # victim.check2('bidaithanroblox.txt', victim.get_items)
 victim.run()
