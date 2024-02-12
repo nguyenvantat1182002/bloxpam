@@ -23,8 +23,8 @@ class dichvurobux(Base):
         print(response.text)
 
     def _register(self):
-        username = self.create_username()
-        password = self.create_password()
+        username = 'fgdfgdfgfgfgkk23'
+        password = username
         data = {
             'type': 'Register',
             'username': username,

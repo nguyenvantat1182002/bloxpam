@@ -24,25 +24,24 @@ def main(init_lock: threading.Lock, close_lock: threading.Lock, tinproxy: TinPro
                         break
                     print('Se lay lai proxy sau', int(end_time - time.time()))
                     time.sleep(1)
-
+            
             with init_lock:
-                victim = marketfruitrb(proxy)
+                victim = bidaithanroblox(proxy)
                 victim.driver.set.window.size(CHROME_WIDTH, CHROME_HEIGHT)
                 victim.driver.set.window.location(*chrome_pos)
-            # victim = marketfruitrb(proxy, fp_gen)
-            victim.run()
+            # victim = dichvurobux(proxy, fp_gen)
+            # victim.run()
             # with init_lock:
             #     if account_list.empty():
             #         return
             #     data: str = account_list.get_nowait()
             #     account_list.task_done()
             # victim.run(*data.split('|'))
-            # account = victim.run('', '')
-            # if account is not None:
-            #     with init_lock:
-            #         with open('biacc.txt', 'a', encoding='utf-8') as file:
-            #             file.write('|'.join(account) + '\n')
-
+            account = victim.run()
+            if account is not None:
+                with init_lock:
+                    with open('bi_acc.txt', 'a', encoding='utf-8') as file:
+                        file.write('|'.join(account) + '\n')
             # with init_lock:
             #     if account_list.empty():
             #         return

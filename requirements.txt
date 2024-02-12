@@ -1,4 +1,4 @@
-DrissionPage
+DrissionPage==4.0.4.5
 chrome-fingerprints
 beautifulsoup4
 capsolver
