@@ -6,7 +6,7 @@ from .base import Base
 
 class bidaithanroblox(Base):
     def __init__(self, proxy: str):
-        super().__init__(proxy)
+        super().__init__(proxy, 'd')
 
     def get_items(self):
         self.tick_cloudflare_checkbox('https://bidaithanroblox.com/')
