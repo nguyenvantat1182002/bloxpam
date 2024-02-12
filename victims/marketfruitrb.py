@@ -1,25 +1,29 @@
 import os
-import time
 
 from .base import Base
-from chrome_fingerprints import FingerprintGenerator
 from bs4 import BeautifulSoup
 
 
 class marketfruitrb(Base):
-    # def __init__(self, proxy: str, fp_gen: FingerprintGenerator):
     def __init__(self, proxy: str):
-        # super().__init__(proxy, fp_gen=fp_gen)
         super().__init__(proxy, 'd')
 
-        with open(f'{os.getcwd()}\\victims\\js\\marketfruitrb.js', encoding='utf-8') as file:
-            self.script = file.read()
-
-    def run(self):
+    def run(self, username: str = None, password: str = None):
         self.tick_cloudflare_checkbox('https://marketfruitrb.com/reg.html')
         self.driver.change_mode()
-        self.register()
+        if username is None and password is None:
+            return self.register()
+        self._login()
         self.transaction()
+
+    def _login(self, username: str, password: str):
+        token = self._get_token()
+        data = {
+            '_token': token,
+            'email': username,
+            'password': password
+        }
+        self.driver.post('https://marketfruitrb.com/login.html', data=data)
 
     def register(self):
         token = self._get_token()
@@ -36,8 +40,6 @@ class marketfruitrb(Base):
             'password1': password,
         }
         self.driver.post('https://marketfruitrb.com/reg.html', data=data)
-        with open('Test.html', 'w', encoding='utf-8') as file:
-            file.write(self.driver.html)
 
     def transaction(self):
         serial = self.create_serial()
